@@ -5,5 +5,5 @@ public class Main {
         comparendo.construirFotoMulta(120, "MULA", 95, 96, 110);
     }
 }
-
+//prueba
 
