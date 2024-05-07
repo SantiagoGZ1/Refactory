@@ -1,105 +1,40 @@
 public class Comparendo {
 
-    private int limiteInferiorCarro = 65;
-    private int limiteInferiorIntermedioCarro = 66;
-    private int limiteSuperiorCarro = 85;
-    private int limiteInferiorCamion = 75;
-    private int limiteInferiorIntermedioCamion = 76;
-    private int limiteSuperiorCamion = 95;
-    private int limiteInferiorMula = 95;
-    private int limiteInferiorIntermedioMula = 96;
-    private int limiteSuperiorMula = 110;
-
-    public Comparendo(int limiteInferiorCarro,
-                      int limiteInferiorIntermedioCarro,
-                      int limiteSuperiorCarro,
-                      int limiteInferiorCamion,
-                      int limiteInferiorIntermedioCamion,
-                      int limiteSuperiorCamion,
-                      int limiteInferiorMula,
-                      int limiteInferiorIntermedioMula,
-                      int limiteSuperiorMula) {
-
-        this.limiteInferiorCarro = limiteInferiorCarro;
-        this.limiteInferiorIntermedioCarro = limiteInferiorIntermedioCarro;
-        this.limiteSuperiorCarro = limiteSuperiorCarro;
-        this.limiteInferiorCamion = limiteInferiorCamion;
-        this.limiteInferiorIntermedioCamion = limiteInferiorIntermedioCamion;
-        this.limiteSuperiorCamion = limiteSuperiorCamion;
-        this.limiteInferiorMula = limiteInferiorMula;
-        this.limiteInferiorIntermedioMula = limiteInferiorIntermedioMula;
-        this.limiteSuperiorMula = limiteSuperiorMula;
-    }
-
-    public Comparendo(int limiteInferiorCarro) {
-        this.limiteInferiorCarro = limiteInferiorCarro;
-    }
-
     public Comparendo() {
     }
+    //fotomulta(velocidad, tipo carro)
+    //depeindoendo del tipo de carro y velocidad es el comparendo
+    public void construirFotoMulta(int velocidad, String tipoVehiculo, int limiteInferiorVehiculos, int limiteInferiorIntermedioVehiculo, int limiteSuperiorVehiculo) {
+        int tipoComparendo = calcularTipoComparendo(velocidad, tipoVehiculo, limiteInferiorIntermedioVehiculo, limiteInferiorVehiculos, limiteSuperiorVehiculo);
+        String textoCorreo = enviarCorreoFotomulta(tipoVehiculo);
 
-
-    public void construirFotoMulta(int velocidad, String tipoVehiculo) {
-        int cpa = calcularComparendo(velocidad, tipoVehiculo);
-        String txt = enviarCorreoFotomulta(tipoVehiculo);
-        if(cpa == -1){
-            System.out.println("no hay calculo para el tipo de vehiculo" + tipoVehiculo + "corre: " + txt);
-        }else {
-            System.out.println("----el tipo de comparendo es: " + cpa + " ----cuerpo del correo" + txt);
+        if (tipoComparendo == -1) {
+            System.out.println("No hay calculo para el tipo de vehiculo " + tipoVehiculo + "corre: " + textoCorreo);
+        } else {
+            System.out.println("El tipo de comparendo es: " + tipoComparendo + "\n" +
+                "Cuerpo del correo: " + textoCorreo);
         }
-
     }
+    public int calcularTipoComparendo(int velocidad, String tipoVehiculo,int limiteInferiorVehiculos, int limiteInferiorIntermedioVehiculo, int limiteSuperiorVehiculo){
+        if(tipoVehiculo == "CARRO" || tipoVehiculo == "MULA" || tipoVehiculo == "CAMION"){
 
-    public int calcularComparendo(int ve, String tp) {
-
-        if(tp == "CARRO") {
-            if(ve<=limiteInferiorCarro) {
+            if (velocidad <= limiteInferiorVehiculos) {
                 return 0;
-            }else if (ve >=limiteInferiorIntermedioCarro && ve<=limiteSuperiorCarro) {
+            } else if (velocidad >= limiteInferiorIntermedioVehiculo && velocidad <= limiteSuperiorVehiculo) {
                 return 1;
             }
             return 2;
         }
-
-        if(tp == "CAMION") {
-            if(ve<=limiteInferiorCamion) {
-                return 0;
-            }else if (ve >=limiteInferiorIntermedioCamion && ve<=limiteSuperiorCamion) {
-                return 1;
-            }
-            return 2;
-        }
-
-        if(tp == "MULA") {
-            if(ve<=limiteInferiorMula) {
-                return 0;
-            }else if (ve >=limiteInferiorIntermedioMula && ve<=limiteSuperiorMula) {
-                return 1;
-            }
-            return 2;
-        }
-
         return -1;
     }
-
-
     public String enviarCorreoFotomulta(String tipoVehiculo) {
 
-        if(tipoVehiculo == "CAMION") {
-            String cuerpoMensaje = "//enviando correo para el tipo camion.";
-            String asunto = "//asunto: comparendo camion";
-            return   asunto + cuerpoMensaje;
-        }else if(tipoVehiculo == "CARRO") {
-            String cuerpoMensaje = "//enviando correo para el tipo carro.";
-            String asunto = "//asunto: comparendo carro";
-            return   asunto + cuerpoMensaje;
-        }else if(tipoVehiculo == "MULA") {
-            String cuerpoMensaje = "//enviando correo para el tipo mula.";
-            String asunto = "//asunto: comparendo mula";
+        if(tipoVehiculo != null) {
+            String cuerpoMensaje = "Enviando correo para el vehiculo: " + tipoVehiculo;
+            String asunto = "\n" + "Asunto: comparendo para el vehiculo: " + tipoVehiculo + "\n";
             return   asunto + cuerpoMensaje;
         } else {
-            return "enviando correo con vehiculo desconocido";
+            return "Enviando correo con vehiculo desconocido";
         }
     }
-
 }
